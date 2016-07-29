@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {Camera} from 'ionic-native';
+import {ReportService, Report} from '../../providers/report-service/report-service';
 
-/*
-  Generated class for the ReportCreationPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   templateUrl: 'build/pages/report-creation/report-creation.html',
 })
 export class ReportCreationPage {
-  public base64Image: string;
+  report: Report = null;
 
-  constructor(private nav: NavController) {
-
+  constructor(private nav: NavController, private reportService: ReportService) {
+    this.report = new Report("", "", "");
   }
 
   takePicture(){
@@ -25,10 +20,19 @@ export class ReportCreationPage {
       targetHeight: 1000
     }).then((imageData) => {
       // imageData is a base64 encoded string
-      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this.report.base64Image = "data:image/jpeg;base64," + imageData;
     }, (err) => {
       console.log(err);
     });
+  }
+
+  save() {
+    this.reportService.saveReport(this.report);
+    this.nav.pop();
+  }
+
+  cancel() {
+    this.nav.pop();
   }
 
 }

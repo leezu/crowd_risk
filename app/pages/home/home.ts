@@ -6,9 +6,8 @@ import {ReportCreationPage} from '../report-creation/report-creation';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
-  constructor(private navCtrl: NavController) {
-  
-  }
+  constructor(private navCtrl: NavController) {}
+
   create_report() {
     this.navCtrl.push(ReportCreationPage, {});
   }

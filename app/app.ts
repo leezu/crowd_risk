@@ -2,10 +2,12 @@ import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
-
+import {ReportService} from './providers/report-service/report-service';
+import {disableDeprecatedForms, provideForms} from '@angular/forms';
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>'
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  providers: [ReportService]
 })
 export class MyApp {
 
@@ -22,4 +24,4 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp, [disableDeprecatedForms, provideForms]);
