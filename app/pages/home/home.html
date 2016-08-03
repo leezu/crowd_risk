@@ -5,9 +5,13 @@
 </ion-header>
 
 <ion-content padding class="home">
-  <h2>Welcome!</h2>
-  <p>
-    Here will be a map of nearby reports.
-  </p>
-  <button fab (click)="create_report()">+</button>
+
+  <ion-list inset>
+    <ion-item *ngFor="let report of reports" (click)="showDetail(report)">
+      <div item-left>{{ report.category }}</div>
+      <div item-right>{{ report.text }}</div>
+    </ion-item>
+  </ion-list>
+
+  <button fab (click)="showDetail()">+</button>
 </ion-content>

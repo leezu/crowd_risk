@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+let PouchDB = require('pouchdb');
 
 export class Report {
   category: string;
@@ -13,17 +14,30 @@ export class Report {
 
 @Injectable()
 export class ReportService {
-  reports: Report[];
+  db;
 
   constructor() {
-    this.reports = new Array<Report>();
+    this.db = new PouchDB('reports');
   }
 
-  public getReports() {
-    return this.reports;
+  public getAll() {
+    return this.db.allDocs({include_docs: true}).
+      then(docs => {
+        return docs.rows.map(row => {
+          return row.doc;
+        });
+      });
   }
 
-  public saveReport(report: Report) {
-    this.reports.push(report);
+  public add(report: Report) {
+    return this.db.post(report);
+  }
+
+  public update(report: Report) {
+    return this.db.put(report);
+  }
+
+  public delete(report: Report) {
+    return this.db.remove(report);
   }
 }

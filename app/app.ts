@@ -7,7 +7,6 @@ import {disableDeprecatedForms, provideForms} from '@angular/forms';
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  providers: [ReportService]
 })
 export class MyApp {
 
@@ -24,4 +23,4 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp, [disableDeprecatedForms, provideForms]);
+ionicBootstrap(MyApp, [disableDeprecatedForms, provideForms, ReportService]);
