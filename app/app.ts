@@ -1,13 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, provide} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
+import {Http} from '@angular/http';
 import {ReportService} from './providers/report-service/report-service';
 import {disableDeprecatedForms, provideForms} from '@angular/forms';
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {AuthService} from './providers/auth-service/auth-service';
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
 })
+
 export class MyApp {
 
   private rootPage: any;
@@ -23,4 +27,15 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp, [disableDeprecatedForms, provideForms, ReportService]);
+ionicBootstrap(MyApp, [
+  disableDeprecatedForms,
+  provideForms,
+  ReportService,
+  provide(AuthHttp, {
+    useFactory: (http) => {
+      return new AuthHttp(new AuthConfig({noJwtError: true}), http);
+    },
+    deps: [Http]
+  }),
+  AuthService
+]);
