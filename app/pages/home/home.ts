@@ -26,8 +26,7 @@ export class HomePage {
     console.log("view enters updating reports array")
 
     this.platform.ready().then(() => {
-      Observable.fromPromise(
-        this.reportService.getAll())
+      this.reportService.getAll()
         .subscribe(reports => this.reports = reports);
     });
   }

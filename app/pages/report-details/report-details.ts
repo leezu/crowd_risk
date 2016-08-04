@@ -19,7 +19,7 @@ export class ReportDetailsPage {
     this.report = this.navParams.get('report');
 
     if (!this.report) {
-      this.report = new Report("", "", "");
+      this.report = new Report("", "", "", "");
     }
     else {
       this.isNew = false;

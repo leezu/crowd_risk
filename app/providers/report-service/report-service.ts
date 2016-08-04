@@ -1,43 +1,53 @@
 import { Injectable } from '@angular/core';
-let PouchDB = require('pouchdb');
+import {Http, Response, Headers} from '@angular/http';
+import {AuthHttp} from 'angular2-jwt';
+
+import {AuthService} from '../auth-service/auth-service';
 
 export class Report {
+  _id: string;
+  title: string;
+  description: string;
   category: string;
-  text: string;
   base64Image: string;
-  constructor(category: string, text: string, base64Image: string) {
+  constructor(title: string,
+              description: string,
+              category: string,
+              base64Image: string) {
+    this.title = title;
+    this.description = description;
     this.category = category;
-    this.text = text;
     this.base64Image = base64Image;
   }
 }
 
 @Injectable()
 export class ReportService {
-  db;
-
-  constructor() {
-    this.db = new PouchDB('reports');
-  }
+  constructor(private http: Http,
+              private authHttp: AuthHttp,
+              private auth: AuthService) {}
 
   public getAll() {
-    return this.db.allDocs({include_docs: true}).
-      then(docs => {
-        return docs.rows.map(row => {
-          return row.doc;
-        });
-      });
+    return this.http.get('http://localhost:8080/api/reports')
+      .map(res => res.json())
   }
 
   public add(report: Report) {
-    return this.db.post(report);
+    let headers = new Headers({'Content-Type': 'application/json'});
+
+    return this.authHttp.post('http://localhost:8080/api/reports', JSON.stringify(report), {headers: headers})
+      .toPromise()
   }
 
   public update(report: Report) {
-    return this.db.put(report);
+    let headers = new Headers({'Content-Type': 'application/json'});
+
+    return this.authHttp.put('http://localhost:8080/api/reports', JSON.stringify(report), {headers: headers})
+      .toPromise()
   }
 
   public delete(report: Report) {
-    return this.db.remove(report);
+    return this.authHttp.delete('http://localhost:8080/api/reports/' + report._id)
+      .toPromise()
   }
 }
