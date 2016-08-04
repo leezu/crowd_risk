@@ -1,11 +1,14 @@
 var express = require('express');
-var app = express();
 var mongoose = require('mongoose');
 var jwt = require('express-jwt');
 var cors = require('cors');
+var morgan = require('morgan')
 
 var config = require('./config'); // get our config file
 
+var app = express();
+
+app.use(morgan('combined'))
 app.use(cors());
 
 var authCheck = jwt({
