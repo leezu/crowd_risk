@@ -37,7 +37,7 @@ var Report = mongoose.model('Report', {
     title: String,
     description: String,
     category: String,
-    image: String
+    base64Image: String
 });
 
 // Get reports
