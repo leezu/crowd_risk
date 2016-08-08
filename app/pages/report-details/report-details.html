@@ -30,7 +30,7 @@
       <ion-input type="text" [(ngModel)]="report.description"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="!gotLocation">
       Waiting for location.
     </ion-item>
 

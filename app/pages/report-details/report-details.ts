@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NavParams, NavController, ViewController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
+import {Geolocation} from 'ionic-native';
 import {ReportService, Report} from '../../providers/report-service/report-service';
 
 @Component({
@@ -9,6 +10,7 @@ import {ReportService, Report} from '../../providers/report-service/report-servi
 export class ReportDetailsPage {
   report: Report;
   public isNew = true;
+  public gotLocation = false;
   public action = 'Add';
 
   constructor(private viewCtrl: ViewController,
@@ -19,12 +21,23 @@ export class ReportDetailsPage {
     this.report = this.navParams.get('report');
 
     if (!this.report) {
-      this.report = new Report("", "", "", "");
+      this.report = new Report();
     }
     else {
       this.isNew = false;
       this.action = 'Edit';
     }
+
+    Geolocation.getCurrentPosition()
+      .then((resp) => {
+        this.report.location.coordinates = [
+          resp.coords.longitude,
+          resp.coords.latitude
+        ]
+
+        this.gotLocation = true;
+      })
+      .catch(console.error.bind(console));
   }
 
 

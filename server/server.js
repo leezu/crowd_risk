@@ -31,14 +31,25 @@ var authCheck = jwt({
 // Configuration
 mongoose.connect(config.database);
 
-// Models
-var Report = mongoose.model('Report', {
+// Schema and Model
+var ReportSchema = new mongoose.Schema({
     user: String,
     title: String,
     description: String,
     category: String,
-    base64Image: String
+    base64Image: String,
+    location : {
+        type: {
+            type: String,
+            default: 'Point'
+        },
+        coordinates: [Number]
+    }
 });
+ReportSchema.index({location: '2dsphere'});
+
+var Report = mongoose.model('Report', ReportSchema);
+
 
 // Get reports
 app.get('/api/reports', function(req, res) {

@@ -10,14 +10,9 @@ export class Report {
   description: string;
   category: string;
   base64Image: string;
-  constructor(title: string,
-              description: string,
-              category: string,
-              base64Image: string) {
-    this.title = title;
-    this.description = description;
-    this.category = category;
-    this.base64Image = base64Image;
+  location: {
+    type: String,
+    coordinates: number[]
   }
 }
 
