@@ -52,21 +52,21 @@ var Report = mongoose.model('Report', ReportSchema);
 
 
 // Get reports
-app.get('/api/reports', function(req, res) {
+app.get('/api/reports', function(req, res, next) {
 
     // use mongoose to get all reports in the database
     Report.find(function(err, reports) {
 
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)
-            res.send(err)
+            return next(err);
 
         res.json(reports); // return all reports in JSON format
     });
 });
 
 // update report and send back all reports after creation
-app.put('/api/reports', authCheck, function(req, res) {
+app.put('/api/reports', authCheck, function(req, res, next) {
     Report.findByIdAndUpdate(req.body._id,
                              req.body,
                              function (err, post) {
@@ -76,7 +76,7 @@ app.put('/api/reports', authCheck, function(req, res) {
 });
 
 // create report and send back all reports after creation
-app.post('/api/reports', authCheck, function(req, res) {
+app.post('/api/reports', authCheck, function(req, res, next) {
     // create a report, information comes from AJAX request from Ionic
     Report.create({
         user: req.user.sub,
@@ -86,12 +86,13 @@ app.post('/api/reports', authCheck, function(req, res) {
         base64Image: req.body.base64Image
     }, function(err, report) {
         if (err)
-            res.send(err);
+            return next(err);
 
         // get and return all the reports after you create another
         Report.find(function(err, reports) {
             if (err)
-                res.send(err)
+                return next(err);
+
             res.json(reports);
         });
     });
@@ -99,7 +100,7 @@ app.post('/api/reports', authCheck, function(req, res) {
 });
 
 // delete a report
-app.delete('/api/reports/:report_id', authCheck, function(req, res) {
+app.delete('/api/reports/:report_id', authCheck, function(req, res, next) {
     Report.remove({
         _id : req.params.report_id
     }, function(err, report) {
