@@ -30,8 +30,11 @@
       <ion-input type="text" [(ngModel)]="report.description"></ion-input>
     </ion-item>
 
-    <ion-item *ngIf="!gotLocation">
-      Waiting for location.
+    <ion-item >
+        <div *ngIf="!gotLocation">
+            Waiting for location.
+        </div>
+        <button (click)="editLocation(latLng)">Edit location</button>
     </ion-item>
 
   </ion-list>

@@ -43,6 +43,7 @@ var ReportSchema = new mongoose.Schema({
             type: String,
             default: 'Point'
         },
+        // MongoDB requires order longitude, latitude (!)
         coordinates: [Number]
     }
 });
@@ -83,7 +84,10 @@ app.post('/api/reports', authCheck, function(req, res, next) {
         title : req.body.title,
         description : req.body.description,
         category: req.body.category,
-        base64Image: req.body.base64Image
+        base64Image: req.body.base64Image,
+        location: {
+            coordinates: req.body.location.coordinates
+        }
     }, function(err, report) {
         if (err)
             return next(err);

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {NavParams, NavController, ViewController} from 'ionic-angular';
+import {NavParams, NavController, ViewController, ModalController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {Geolocation} from 'ionic-native';
 import {ReportService, Report} from '../../providers/report-service/report-service';
+import {LocationPage} from '../location/location';
 
 @Component({
   templateUrl: 'build/pages/report-details/report-details.html',
@@ -13,8 +14,11 @@ export class ReportDetailsPage {
   public gotLocation = false;
   public action = 'Add';
 
+  public latLng: number[];
+
   constructor(private viewCtrl: ViewController,
               private navParams: NavParams,
+              private modalCtrl: ModalController,
               private reportService: ReportService) {}
 
   ionViewLoaded() {
@@ -31,9 +35,17 @@ export class ReportDetailsPage {
     Geolocation.getCurrentPosition()
       .then((resp) => {
         this.report.location.coordinates = [
+          // MongoDB requires order longitude, latitude (!)
           resp.coords.longitude,
           resp.coords.latitude
         ]
+
+        // Store for convenience in order latitude longitude
+        // (e.g. used by LeafletJS)
+        this.latLng = [
+          resp.coords.latitude,
+          resp.coords.longitude
+        ];
 
         this.gotLocation = true;
       })
@@ -52,6 +64,18 @@ export class ReportDetailsPage {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  editLocation(latLng) {
+    console.log(JSON.stringify(latLng));
+    let modal = this.modalCtrl.create(LocationPage, {latLng: latLng})
+
+    modal.onDidDismiss(latLng => {
+      this.latLng = latLng;
+      this.report.location.coordinates = [latLng[1], latLng[0]];
+    });
+
+    modal.present();
   }
 
   save() {
@@ -75,8 +99,5 @@ export class ReportDetailsPage {
 
   dismiss() {
     this.viewCtrl.dismiss(this.report);
-  }
-  ionViewWillLeave() {
-    console.log("details leaving")
   }
 }

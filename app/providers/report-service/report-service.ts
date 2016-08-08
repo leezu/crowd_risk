@@ -14,6 +14,13 @@ export class Report {
     type: String,
     coordinates: number[]
   }
+
+  constructor() {
+    this.location = {
+      type: "Point",
+      coordinates: undefined
+    };
+  }
 }
 
 @Injectable()
