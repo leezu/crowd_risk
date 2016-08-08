@@ -11,17 +11,17 @@ var config = require('./config'); // get our config file
 var app = express();
 
 app.use(morgan('combined'))
-app.use(cors());
+
+var corsOptions = {
+    origin: true,
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Origin, X-Requested-With, Content-Type, Accept, Authorization']
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(methodOverride());
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "DELETE, PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 var authCheck = jwt({
     secret: new Buffer(config.jwt_secret, 'base64'),
