@@ -30,11 +30,14 @@
       <ion-input type="text" [(ngModel)]="report.description"></ion-input>
     </ion-item>
 
-    <ion-item >
+    <ion-item>
         <div *ngIf="!gotLocation">
             Waiting for location.
+            <button (click)="editLocation()">Manually set location</button>
         </div>
-        <button (click)="editLocation(latLng)">Edit location</button>
+        <div class="preview-map-container" [hidden]="!gotLocation" (click)="editLocation(latLng)">
+            <div id="preview-map" style="width: 100%; height: 100%"></div>
+        </div>
     </ion-item>
 
   </ion-list>

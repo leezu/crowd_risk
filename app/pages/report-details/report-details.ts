@@ -4,6 +4,7 @@ import {Camera} from 'ionic-native';
 import {Geolocation} from 'ionic-native';
 import {ReportService, Report} from '../../providers/report-service/report-service';
 import {LocationPage} from '../location/location';
+import * as Leaflet from "leaflet";
 
 @Component({
   templateUrl: 'build/pages/report-details/report-details.html',
@@ -14,6 +15,8 @@ export class ReportDetailsPage {
   public gotLocation = false;
   public action = 'Add';
 
+  private map: any;
+  private marker: any;
   public latLng: number[];
 
   constructor(private viewCtrl: ViewController,
@@ -48,10 +51,29 @@ export class ReportDetailsPage {
         ];
 
         this.gotLocation = true;
+
+        this.loadMap(this.latLng);
       })
       .catch(console.error.bind(console));
   }
 
+  loadMap(latLng: number[]) {
+    // The icon imagePath autodetection fails with ionic2
+    Leaflet.Icon.Default.imagePath = 'build/images';
+
+    this.map = Leaflet
+      .map("preview-map")
+      .setView(latLng, 15);
+
+    Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
+      .addTo(this.map);
+
+    this.marker = Leaflet
+      .marker(latLng, {
+        icon: new L.Icon.Default()
+      })
+      .addTo(this.map);
+  }
 
   takePicture(){
     Camera.getPicture({
@@ -73,6 +95,7 @@ export class ReportDetailsPage {
     modal.onDidDismiss(latLng => {
       this.latLng = latLng;
       this.report.location.coordinates = [latLng[1], latLng[0]];
+      this.marker.setLatLng(this.latLng);
     });
 
     modal.present();
