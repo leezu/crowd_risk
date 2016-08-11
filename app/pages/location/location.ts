@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 import * as Leaflet from "leaflet";
+import "leaflet-geocoder-mapzen";
+
 
 @Component({
   templateUrl: 'build/pages/location/location.html',
@@ -28,7 +30,7 @@ export class LocationPage {
 
   loadMap(latLng: number[]) {
     // The icon imagePath autodetection fails with ionic2
-    Leaflet.Icon.Default.imagePath = '/build/images/';
+    Leaflet.Icon.Default.imagePath = 'build/images';
 
     this.map = Leaflet
       .map("map")
@@ -43,6 +45,8 @@ export class LocationPage {
         icon: new L.Icon.Default()
       })
       .addTo(this.map);
+
+    Leaflet.control.geocoder('search-UP2dMqV').addTo(this.map);
   }
 
   goBack() {
