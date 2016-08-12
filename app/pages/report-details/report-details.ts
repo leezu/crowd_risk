@@ -64,6 +64,7 @@ export class ReportDetailsPage {
     this.map = Leaflet
       .map("preview-map")
       .setView(latLng, 15);
+    this.map.zoomControl.setPosition('bottomright');
 
     Leaflet.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
       .addTo(this.map);
