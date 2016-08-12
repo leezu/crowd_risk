@@ -16,6 +16,8 @@ declare namespace L {
     }
 
     export interface Geocoder extends L.Control {
+      addTo(map: Map): Geocoder;
+      on(type: string, fn: (e: any) => void);
     }
 
     export interface GeocoderOptions {

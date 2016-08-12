@@ -47,7 +47,15 @@ export class LocationPage {
       })
       .addTo(this.map);
 
-    Leaflet.control.geocoder('search-UP2dMqV').addTo(this.map);
+    var geocoder = Leaflet.control.geocoder('search-UP2dMqV', {
+      markers: false,
+      panToPoint: false
+    }).addTo(this.map);
+
+    geocoder.on('select', (e) => {
+      this.latLng = [e.latlng.lat, e.latlng.lng];
+      this.marker.setLatLng(this.latLng);
+    });
   }
 
   goBack() {
