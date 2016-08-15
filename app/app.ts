@@ -16,13 +16,23 @@ export class MyApp {
 
   private rootPage: any;
 
-  constructor(private platform: Platform) {
+  constructor(
+    private platform: Platform,
+    private authHttp: AuthHttp,
+    private auth: AuthService
+  ) {
     this.rootPage = TabsPage;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+
+      // When the app starts up, there might be a valid
+      // token in local storage. If there is, we should
+      // schedule an initial token refresh for when the
+      // token expires
+      this.auth.startupTokenRefresh();
     });
   }
 }
