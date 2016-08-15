@@ -16,13 +16,13 @@
   <ion-list>
 
     <ion-item>
-      <ion-label floating>Title</ion-label>
-      <ion-input type="text" [(ngModel)]="report.title"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label floating>Category</ion-label>
-      <ion-input type="text" [(ngModel)]="report.category"></ion-input>
+      <ion-select [(ngModel)]="report.category" cancelText="Cancel" okText="Okay!">
+        <ion-option value="crime">Crime and Security</ion-option>
+        <ion-option value="property">Property</ion-option>
+        <ion-option value="health">Health and safety</ion-option>
+        <ion-option value="other">Other</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
