@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController, Platform, ModalController} from 'ionic-angular';
+import {Component, Input} from '@angular/core';
+import {NavController, Platform} from 'ionic-angular';
 import {ReportDetailsPage} from '../report-details/report-details';
 import {ReportService} from '../../providers/report-service/report-service';
 import {Observable} from "rxjs/Observable";
@@ -11,25 +11,24 @@ import {AuthService} from '../../providers/auth-service/auth-service';
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
-  reports;
+  @Input() reports;
 
   constructor(private reportService: ReportService,
               private navCtrl: NavController,
-              private modalCtrl: ModalController,
               private auth: AuthService,
               private platform: Platform) {}
 
   showDetail(report) {
-    let modal = this.modalCtrl.create(ReportDetailsPage, {report: report})
-    modal.present();
+    this.navCtrl.push(ReportDetailsPage, {report: report});
   }
 
   ionViewWillEnter() {
-    console.log("view enters updating reports array")
-
-    this.platform.ready().then(() => {
+    // Timeout to wait for new changes to be reflected in backend
+    setTimeout(() => {
       this.reportService.getAll()
-        .subscribe(reports => this.reports = reports);
-    });
+        .subscribe((reports) => {
+          this.reports = reports;
+        });
+    }, 500);
   }
 }
