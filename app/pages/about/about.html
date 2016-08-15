@@ -3,6 +3,14 @@
     <ion-title>
       About
     </ion-title>
+    <ion-buttons end>
+      <button (click)="auth.login()" *ngIf="!auth.authenticated()">
+        <ion-icon name="log-in"></ion-icon>
+      </button>
+      <button (click)="auth.logout()" *ngIf="auth.authenticated()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

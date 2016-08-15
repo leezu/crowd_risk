@@ -5,6 +5,7 @@ import {ReportService} from '../../providers/report-service/report-service';
 import {Observable} from "rxjs/Observable";
 import 'rxjs/Rx'; // Imports all RxJS Observable operators
 import { Geolocation } from 'ionic-native';
+import {AuthService} from '../../providers/auth-service/auth-service';
 
 @Component({
   templateUrl: 'build/pages/home/home.html'
@@ -15,6 +16,7 @@ export class HomePage {
   constructor(private reportService: ReportService,
               private navCtrl: NavController,
               private modalCtrl: ModalController,
+              private auth: AuthService,
               private platform: Platform) {}
 
   showDetail(report) {
