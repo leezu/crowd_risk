@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ReportCreation</ion-title>
+
+    <ion-buttons end *ngIf="!isNew">
+      <button (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label floating>Category</ion-label>
+      <ion-select [(ngModel)]="report.category" cancelText="Cancel" okText="Okay!">
+        <ion-option value="Crime and Security">Crime and Security</ion-option>
+        <ion-option value="Property">Property</ion-option>
+        <ion-option value="Health and safety">Health and safety</ion-option>
+        <ion-option value="Other">Other</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea type="text" [(ngModel)]="report.description"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+        <div *ngIf="!gotLocation">
+            Waiting for location.
+            <button (click)="editLocation()">Manually set location</button>
+        </div>
+        <div class="preview-map-container" [hidden]="!gotLocation" (click)="editLocation(latLng)">
+            <div id="preview-map" style="width: 100%; height: 100%"></div>
+        </div>
+    </ion-item>
+
+  </ion-list>
+
+  <button (click)="takePicture()">Take a Picture</button>
+
+  Latest Picture:
+  <img [src]="report.base64Image" *ngIf="report.base64Image" />
+
+  <button (click)="dismiss()">Cancel</button>
+  <button (click)="save()">Save</button>
+</ion-content>

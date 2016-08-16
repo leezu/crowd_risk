@@ -6,6 +6,7 @@ import {BackendConfig} from '../../config'
 
 export class Report {
   _id: string;
+  user: string;
   title: string;
   description: string;
   category: string;

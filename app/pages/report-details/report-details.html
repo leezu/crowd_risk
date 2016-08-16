@@ -1,8 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>ReportCreation</ion-title>
+    <ion-title>Report</ion-title>
 
-    <ion-buttons end *ngIf="!isNew">
+    <ion-buttons end *ngIf="authorizedUser">
       <button (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -13,40 +13,12 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <h2>{{ report.category }}</h2>
+  <p>{{ report.description }}</p>
 
-    <ion-item>
-      <ion-label floating>Category</ion-label>
-      <ion-select [(ngModel)]="report.category" cancelText="Cancel" okText="Okay!">
-        <ion-option value="crime">Crime and Security</ion-option>
-        <ion-option value="property">Property</ion-option>
-        <ion-option value="health">Health and safety</ion-option>
-        <ion-option value="other">Other</ion-option>
-      </ion-select>
-    </ion-item>
+  <div class="report-details-map-container">
+    <div id="report-details-map" style="width: 100%; height: 100%"></div>
+  </div>
 
-    <ion-item>
-      <ion-label floating>Description</ion-label>
-      <ion-input type="text" [(ngModel)]="report.description"></ion-input>
-    </ion-item>
-
-    <ion-item>
-        <div *ngIf="!gotLocation">
-            Waiting for location.
-            <button (click)="editLocation()">Manually set location</button>
-        </div>
-        <div class="preview-map-container" [hidden]="!gotLocation" (click)="editLocation(latLng)">
-            <div id="preview-map" style="width: 100%; height: 100%"></div>
-        </div>
-    </ion-item>
-
-  </ion-list>
-
-  <button (click)="takePicture()">Take a Picture</button>
-
-  Latest Picture:
-  <img [src]="report.base64Image" *ngIf="report.base64Image" />
-
-  <button (click)="dismiss()">Cancel</button>
-  <button (click)="save()">Save</button>
+  <img [src]="report.base64Image"/>
 </ion-content>

@@ -18,11 +18,15 @@
   </ion-refresher>
 
   <ion-list inset>
-    <ion-item *ngFor="let report of reports" (click)="showDetail(report)">
-      <div item-left>{{ report.category }}</div>
-      <div item-right>{{ report.text }}</div>
-    </ion-item>
+    <ion-card *ngFor="let report of reports" (click)="showDetail(report)">
+      <img [src]="report.base64Image">
+
+      <ion-item>
+        <h2>{{ report.category }}</h2>
+        <p>{{ report.description }}</p>
+      </ion-item>
+    </ion-card>
   </ion-list>
 
-  <button fab fab-bottom fab-right fab-fixed class="button-fab-add" (click)="showDetail()">+</button>
+  <button fab fab-bottom fab-right fab-fixed class="button-fab-add" (click)="createReport()">+</button>
 </ion-content>
