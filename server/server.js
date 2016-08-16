@@ -2,7 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var jwt = require('express-jwt');
 var cors = require('cors');
-var morgan = require('morgan')
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
@@ -10,7 +10,7 @@ var config = require('./config'); // get our config file
 
 var app = express();
 
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 
 var corsOptions = {
     origin: true,
@@ -62,7 +62,7 @@ app.get('/api/reports', function(req, res, next) {
         if (err)
             return next(err);
 
-        res.json(reports); // return all reports in JSON format
+        return res.json(reports); // return all reports in JSON format
     });
 });
 
@@ -72,7 +72,7 @@ app.put('/api/reports', authCheck, function(req, res, next) {
                              req.body,
                              function (err, post) {
                                  if (err) return next(err);
-                                 res.json(post);}
+                                 return res.json(post);}
                             );
 });
 
@@ -93,14 +93,13 @@ app.post('/api/reports', authCheck, function(req, res, next) {
             return next(err);
 
         // get and return all the reports after you create another
-        Report.find(function(err, reports) {
+        return Report.find(function(err, reports) {
             if (err)
                 return next(err);
 
-            res.json(reports);
+            return res.json(reports);
         });
     });
-
 });
 
 // delete a report
