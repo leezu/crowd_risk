@@ -20,6 +20,13 @@ export class HomePage {
 
   showDetail(report) {
     this.navCtrl.push(ReportDetailsPage, {report: report});
+
+  doRefresh(refresher) {
+    this.reportService.getAll()
+      .subscribe((reports) => {
+        this.reports = reports;
+        refresher.complete();
+      });
   }
 
   ionViewWillEnter() {
