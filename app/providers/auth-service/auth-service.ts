@@ -2,7 +2,7 @@ import {Storage, LocalStorage} from 'ionic-angular';
 import {AuthHttp, JwtHelper, tokenNotExpired} from 'angular2-jwt';
 import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Auth0Vars} from '../../auth0-variables'
+import {Auth0Vars} from '../../config'
 
 // Avoid name not found warnings
 declare var Auth0: any;
