@@ -19,8 +19,17 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+// for parsing application/json
+app.use(bodyParser.json({
+  limit:1024*1024*20,
+  type:'application/json'
+}));
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit:1024*1024*20,
+  type:'application/x-www-form-urlencoding'
+}));
 app.use(methodOverride());
 
 var authCheck = jwt({
