@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+// set Promise provider to bluebird
+mongoose.Promise = require('bluebird');
 
 var ReportSchema = new mongoose.Schema({
   user: String,
