@@ -1,5 +1,5 @@
 module.exports = {
-    'jwt_secret': '',
-    'jwt_id': '',
-    'database': ''
+  'jwt_secret' : '',
+  'jwt_id' : '',
+  'database' : ''
 };
