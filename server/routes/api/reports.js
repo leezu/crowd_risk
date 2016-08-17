@@ -12,7 +12,7 @@ var authCheck = jwt({
 // Get reports
 router.get('/', function(req, res, next) {
   // use mongoose to get all reports in the database
-  Report.find()
+  Report.find(req.query)
     .exec()
     .then((reports) => {
       return res.json(reports);
