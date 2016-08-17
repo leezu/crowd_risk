@@ -53,4 +53,22 @@ export class ReportService {
     return this.authHttp.delete(BackendConfig.BACKEND_URL + '/api/reports/' + report._id)
       .toPromise()
   }
+
+  public getComments(report: Report) {
+    return this.http.get(BackendConfig.BACKEND_URL +
+                         '/api/comments?report_id=' +
+                         report._id)
+      .map(res => res.json())
+  }
+
+  public addComment(report: Report, comment: string) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+
+    return this.authHttp.post(BackendConfig.BACKEND_URL + '/api/comments',
+                              JSON.stringify({
+                                "text": comment,
+                                "report_id": report._id
+                              }), {headers: headers})
+      .toPromise()
+  }
 }

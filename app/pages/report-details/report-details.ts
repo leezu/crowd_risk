@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NavParams, NavController, ViewController, ModalController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {Geolocation} from 'ionic-native';
@@ -19,6 +19,9 @@ export class ReportDetailsPage {
 
   private authorizedUser: boolean;
 
+  @Input() comments;
+  private comment: string;
+
   constructor(private viewCtrl: ViewController,
               private navParams: NavParams,
               private modalCtrl: ModalController,
@@ -33,6 +36,10 @@ export class ReportDetailsPage {
       this.authorizedUser = true;
     }
 
+    this.reportService.getComments(this.report)
+      .subscribe((comments) => {
+        this.comments = comments;
+      });
   }
 
   getLatLng() {
@@ -63,6 +70,21 @@ export class ReportDetailsPage {
       .catch(console.error.bind(console));
 
     this.dismiss();
+  }
+
+  addComment() {
+    this.reportService.addComment(this.report, this.comment)
+      .catch(console.error.bind(console));
+
+    this.comment = "";
+
+    // Timeout to wait for new changes to be reflected in backend
+    setTimeout(() => {
+      this.reportService.getComments(this.report)
+        .subscribe((comments) => {
+          this.comments = comments;
+        });
+    }, 500);
   }
 
   dismiss() {

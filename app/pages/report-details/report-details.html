@@ -21,4 +21,19 @@
   </div>
 
   <img [src]="report.base64Image"/>
+
+  <h2>Comments</h2>
+  <ion-list>
+    <ion-card *ngFor="let comment of comments">
+      <ion-item>
+        <p>{{ comment.text }}</p>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <ion-item>
+    <ion-label>New comment</ion-label>
+    <ion-textarea type="text" [(ngModel)]="comment"></ion-textarea>
+  </ion-item>
+  <button type="button" class="btn btn-default" (click)="addComment()">Add comment</button>
 </ion-content>
