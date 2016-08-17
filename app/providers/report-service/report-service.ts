@@ -45,7 +45,7 @@ export class ReportService {
   public update(report: Report) {
     let headers = new Headers({'Content-Type': 'application/json'});
 
-    return this.authHttp.put(BackendConfig.BACKEND_URL + '/api/reports', JSON.stringify(report), {headers: headers})
+    return this.authHttp.put(BackendConfig.BACKEND_URL + '/api/reports/' + report._id, JSON.stringify(report), {headers: headers})
       .toPromise()
   }
 
