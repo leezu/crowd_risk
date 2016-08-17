@@ -1,6 +1,5 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var jwt = require('express-jwt');
 var cors = require('cors');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -32,93 +31,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(methodOverride());
 
-var authCheck = jwt({
-    secret: new Buffer(config.jwt_secret, 'base64'),
-    audience: config.jwt_id
-});
-
 // Configuration
 mongoose.connect(config.database);
 
-// Schema and Model
-var ReportSchema = new mongoose.Schema({
-    user: String,
-    title: String,
-    description: String,
-    category: String,
-    base64Image: String,
-    location : {
-        type: {
-            type: String,
-            default: 'Point'
-        },
-        // MongoDB requires order longitude, latitude (!)
-        coordinates: [Number]
-    }
-});
-ReportSchema.index({location: '2dsphere'});
-
-var Report = mongoose.model('Report', ReportSchema);
-
-
-// Get reports
-app.get('/api/reports', function(req, res, next) {
-
-    // use mongoose to get all reports in the database
-    Report.find(function(err, reports) {
-
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-        if (err)
-            return next(err);
-
-        return res.json(reports); // return all reports in JSON format
-    });
-});
-
-// update report and send back all reports after creation
-app.put('/api/reports', authCheck, function(req, res, next) {
-    Report.findByIdAndUpdate(req.body._id,
-                             req.body,
-                             function (err, post) {
-                                 if (err) return next(err);
-                                 return res.json(post);}
-                            );
-});
-
-// create report and send back all reports after creation
-app.post('/api/reports', authCheck, function(req, res, next) {
-    // create a report, information comes from AJAX request from Ionic
-    Report.create({
-        user: req.user.sub,
-        title : req.body.title,
-        description : req.body.description,
-        category: req.body.category,
-        base64Image: req.body.base64Image,
-        location: {
-            coordinates: req.body.location.coordinates
-        }
-    }, function(err, report) {
-        if (err)
-            return next(err);
-
-        // get and return all the reports after you create another
-        return Report.find(function(err, reports) {
-            if (err)
-                return next(err);
-
-            return res.json(reports);
-        });
-    });
-});
-
-// delete a report
-app.delete('/api/reports/:report_id', authCheck, function(req, res, next) {
-    Report.remove({
-        _id : req.params.report_id
-    }, function(err, report) {
-
-    });
-});
+app.use("/", require("./routes"));
 
 app.listen(8080);
 console.log('Listening on http://localhost:8080');
