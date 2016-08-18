@@ -22,7 +22,7 @@ export class LocationPage {
     if (!this.latLng) {
       // TODO: Default location is Brisbane
       console.log("Using default location (brisbane)")
-      this.latLng = [-27.28, 153.02];
+      this.latLng = [-27.476944,153.028056];
     }
 
     this.loadMap(this.latLng);
