@@ -1,9 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {NavParams, NavController, ViewController, ModalController} from 'ionic-angular';
+import {NavParams, NavController, ViewController} from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import {Geolocation} from 'ionic-native';
 import {ReportService, Report} from '../../providers/report-service/report-service';
 import {LocationPage} from '../location/location';
+import {ReportNewPage} from '../report-new/report-new';
 import {AuthService} from '../../providers/auth-service/auth-service';
 import * as Leaflet from "leaflet";
 
@@ -23,8 +24,8 @@ export class ReportDetailsPage {
   private comment: string;
 
   constructor(private viewCtrl: ViewController,
+              private navCtrl: NavController,
               private navParams: NavParams,
-              private modalCtrl: ModalController,
               private auth: AuthService,
               private reportService: ReportService) {}
 
@@ -63,6 +64,10 @@ export class ReportDetailsPage {
         icon: new L.Icon.Default()
       })
       .addTo(this.map);
+  }
+
+  edit() {
+    this.navCtrl.push(ReportNewPage, {report: this.report});
   }
 
   delete() {

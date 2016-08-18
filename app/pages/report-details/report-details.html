@@ -3,6 +3,9 @@
     <ion-title>Report</ion-title>
 
     <ion-buttons end *ngIf="authorizedUser">
+      <button (click)="edit()">
+        <ion-icon name="create"></ion-icon>
+      </button>
       <button (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
