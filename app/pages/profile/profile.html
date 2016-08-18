@@ -12,18 +12,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding *ngIf="auth.authenticated()">
+<ion-content *ngIf="auth.authenticated()">
 
   <ion-card>
+    <ion-card-content>
+      <ion-item *ngIf="auth.user">
+        <ion-avatar item-left>
+          <img src="{{ auth.user.picture }}">
+        </ion-avatar>
+        <h2>{{ auth.user.nickname }}</h2>
+        <p>{{ auth.user.email }}</p>
+      </ion-item>
+    </ion-card-content>
 
-    <ion-item *ngIf="auth.user">
-      <ion-avatar item-left>
-        <img src="{{ auth.user.picture }}">
-      </ion-avatar>
-      <h2>{{ auth.user.nickname }}</h2>
-      <p>{{ auth.user.email }}</p>
+    <ion-item>
+      Reports created
+      <ion-badge item-right>{{ num_reports }}</ion-badge>
     </ion-item>
 
+    <ion-item>
+      Comments created
+      <ion-badge item-right>{{ num_comments }}</ion-badge>
+    </ion-item>
   </ion-card>
 
+</ion-content>
+
+<ion-content *ngIf="!auth.authenticated()">
+  <ion-card>
+    <ion-card-content>
+      Please sign-up or log-in.
+    </ion-card-content>
+  </ion-card>
 </ion-content>

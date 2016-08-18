@@ -4,6 +4,7 @@ import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {Http} from '@angular/http';
 import {ReportService} from './providers/report-service/report-service';
+import {UserService} from './providers/user-service/user-service';
 import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {AuthService} from './providers/auth-service/auth-service';
@@ -41,6 +42,7 @@ ionicBootstrap(MyApp, [
   disableDeprecatedForms,
   provideForms,
   ReportService,
+  UserService,
   provide(AuthHttp, {
     useFactory: (http) => {
       return new AuthHttp(new AuthConfig({noJwtError: true}), http);
