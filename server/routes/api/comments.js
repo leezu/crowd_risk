@@ -31,7 +31,8 @@ router.put('/:comment_id', authCheck, function(req, res, next) {
         throw new Error("User not authorized.");
       }
 
-      return comment.set({text : req.body.text});
+      comment.set({text : req.body.text});
+      return comment.save();
     })
     .then((comment) => {
       return res.json(comment);

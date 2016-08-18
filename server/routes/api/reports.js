@@ -30,7 +30,7 @@ router.put('/:report_id', authCheck, function(req, res, next) {
         throw new Error("User not authorized.");
       }
 
-      return report.set({
+      report.set({
         title : req.body.title,
         description : req.body.description,
         category: req.body.category,
@@ -39,6 +39,7 @@ router.put('/:report_id', authCheck, function(req, res, next) {
           coordinates: req.body.location.coordinates
         }
       });
+      return report.save();
     })
     .then((report) => {
       return res.json(report);
