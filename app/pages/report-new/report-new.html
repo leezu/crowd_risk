@@ -2,6 +2,11 @@
   <ion-navbar>
     <ion-title>{{action}} report</ion-title>
 
+    <ion-buttons end>
+      <button (click)="save()" [disabled]="!(report.category && report.description && gotLocation && report.base64Image)">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end *ngIf="!isNew">
       <button (click)="delete()">
         <ion-icon name="trash"></ion-icon>
@@ -12,8 +17,8 @@
 </ion-header>
 
 
-<ion-content padding class="report-new">
-  <ion-list>
+<ion-content class="report-new">
+  <ion-card>
 
     <ion-item>
       <ion-label floating>Category</ion-label>
@@ -39,13 +44,11 @@
         </div>
     </ion-item>
 
-  </ion-list>
+    <ion-item>
+      <div *ngIf="!report.base64Image">Please take a picture.</div>
+      <img class="picture" [src]="report.base64Image" *ngIf="report.base64Image" />
 
-  <button (click)="takePicture()">Take a Picture</button>
-
-  Latest Picture:
-  <img [src]="report.base64Image" *ngIf="report.base64Image" />
-
-  <button (click)="dismiss()">Cancel</button>
-  <button (click)="save()">Save</button>
+      <button (click)="takePicture()">Take a Picture</button>
+    </ion-item>
+  </ion-card>
 </ion-content>
