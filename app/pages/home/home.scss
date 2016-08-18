@@ -9,7 +9,9 @@
         object-fit: cover;
     }
 
-    .button-fab-add {
-        margin-bottom: 10%;
-    }
+}
+
+.button-fab-add {
+    z-index: 1;
+    margin-bottom: 72px;
 }
