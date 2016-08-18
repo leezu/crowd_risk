@@ -35,7 +35,11 @@ export class ReportNewPage {
       this.action = 'Edit';
     }
 
-    Geolocation.getCurrentPosition()
+    Geolocation.getCurrentPosition({
+      timeout: 3000,
+      enableHighAccuracy: true,
+      maximumAge: 3600000
+    })
       .then((resp) => {
         this.report.location.coordinates = [
           // MongoDB requires order longitude, latitude (!)
@@ -54,7 +58,15 @@ export class ReportNewPage {
 
         this.loadMap(this.latLng);
       })
-      .catch(console.error.bind(console));
+      .catch(error => {
+        console.log(JSON.stringify(error));
+
+        this.latLng = [-27.476944,153.028056];
+
+        this.gotLocation = true;
+
+        this.loadMap(this.latLng);
+      });
   }
 
   loadMap(latLng: number[]) {

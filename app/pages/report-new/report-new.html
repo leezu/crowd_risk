@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>ReportCreation</ion-title>
+    <ion-title>Add new report</ion-title>
 
     <ion-buttons end *ngIf="!isNew">
       <button (click)="delete()">
@@ -33,7 +33,6 @@
     <ion-item>
         <div *ngIf="!gotLocation">
             Waiting for location.
-            <button (click)="editLocation()">Manually set location</button>
         </div>
         <div class="preview-map-container" [hidden]="!gotLocation" (click)="editLocation(latLng)">
             <div id="preview-map" style="width: 100%; height: 100%"></div>
