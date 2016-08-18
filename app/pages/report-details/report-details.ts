@@ -31,7 +31,7 @@ export class ReportDetailsPage {
 
   ionViewLoaded() {
     this.report = this.navParams.get('report');
-    this.loadMap(this.getLatLng());
+    setTimeout(() => this.loadMap(this.getLatLng()), 100);
 
     if (this.report.user == this.auth.user.user_id) {
       this.authorizedUser = true;

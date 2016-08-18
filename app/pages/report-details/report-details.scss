@@ -1,8 +1,12 @@
 .report-creation {
+    .report-details-map-container {
+        width: 100%;
+        height: 200px;
+    }
 
-}
-
-.preview-map-container {
-    width: 100%;
-    height: 200px;
+    .report-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
 }
