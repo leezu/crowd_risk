@@ -50,17 +50,20 @@ declare namespace L {
     /**
      * Adds a new point to the heatmap and redraws it
      */
-    addLatLng: (latlng: L.LatLng | number[]) => void,
+    addLatLng: (latlng: L.LatLngExpression | number[]) => void,
     /**
      * Resets heatmap data and redraws it
      */
-    setLatLngs: (latlng: L.LatLng[] | number[][]) => void,
+    setLatLngs: (latlng: L.LatLngExpression[] | number[][]) => void,
     /**
      * Redraws the heatmap
      */
     redraw: () => void,
-
+    /**
+     * Adds the layer to the map.
+     */
+    addTo(map: Map): HeatLayer;
   }
 
-  export function heatLayer(latlngs: L.LatLng[] | number[][], options: heatLayerOptions): HeatLayer;
+  export function heatLayer(latlngs: L.LatLngExpression[], options?: heatLayerOptions): HeatLayer;
 }

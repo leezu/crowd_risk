@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Explore
     </ion-title>
     <ion-buttons end>
       <button (click)="auth.login()" *ngIf="!auth.authenticated()">
@@ -14,5 +14,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="about">
+<ion-content class="explore">
+  <div class="map-container">
+      <div id="explore-map" style="width: 100%; height: 100%">
+      </div>
+  </div>
 </ion-content>
