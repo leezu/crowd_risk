@@ -1,6 +1,15 @@
 .home {
-}
+    .cards-bg {
+        background-color: #f4f4f7;
+    }
 
-.button-fab-add {
-    margin-bottom: 10%;
+    .report-image-preview {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .button-fab-add {
+        margin-bottom: 10%;
+    }
 }

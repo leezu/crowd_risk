@@ -12,14 +12,14 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="home">
+<ion-content class="cards-bg home">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list inset>
+  <ion-list>
     <ion-card *ngFor="let report of reports" (click)="showDetail(report)">
-      <img [src]="report.base64Image">
+      <img class="report-image-preview" [src]="report.base64Image">
 
       <ion-item>
         <h2>{{ report.category }}</h2>
