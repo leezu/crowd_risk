@@ -21,10 +21,10 @@
     <ion-card *ngFor="let report of reports" (click)="showDetail(report)">
       <img class="report-image-preview" [src]="report.base64Image">
 
-      <ion-item>
+      <ion-card-content>
         <h2>{{ report.category }}</h2>
         <p>{{ report.description }}</p>
-      </ion-item>
+      </ion-card-content>
     </ion-card>
   </ion-list>
 
