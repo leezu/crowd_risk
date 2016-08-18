@@ -17,7 +17,6 @@ export class ReportNewPage {
 
   private map: any;
   private marker: any;
-  public latLng: number[];
 
   constructor(private viewCtrl: ViewController,
               private navParams: NavParams,
@@ -29,44 +28,45 @@ export class ReportNewPage {
 
     if (!this.report) {
       this.report = new Report();
+
+      Geolocation.getCurrentPosition({
+        timeout: 3000,
+        enableHighAccuracy: true,
+        maximumAge: 3600000
+      })
+        .then((resp) => {
+          this.report.location.coordinates = [
+            // MongoDB requires order longitude, latitude (!)
+            resp.coords.longitude,
+            resp.coords.latitude
+          ]
+
+          this.gotLocation = true;
+
+          // LeafletJS requires order latitude, longitude (!)
+          this.loadMap([resp.coords.latitude, resp.coords.longitude]);
+        })
+        .catch(error => {
+          console.log(JSON.stringify(error));
+
+          // MongoDB requires order longitude, latitude (!)
+          this.report.location.coordinates = [153.028056, -27.476944]
+          this.gotLocation = true;
+
+          this.loadMap([-27.476944,153.028056]);
+        });
     }
     else {
       this.isNew = false;
       this.action = 'Edit';
+
+      this.gotLocation = true;
+      setTimeout(() => {
+        this.loadMap([this.report.location.coordinates[1],
+                      this.report.location.coordinates[0]]);
+      }, 300);
     }
 
-    Geolocation.getCurrentPosition({
-      timeout: 3000,
-      enableHighAccuracy: true,
-      maximumAge: 3600000
-    })
-      .then((resp) => {
-        this.report.location.coordinates = [
-          // MongoDB requires order longitude, latitude (!)
-          resp.coords.longitude,
-          resp.coords.latitude
-        ]
-
-        // Store for convenience in order latitude longitude
-        // (e.g. used by LeafletJS)
-        this.latLng = [
-          resp.coords.latitude,
-          resp.coords.longitude
-        ];
-
-        this.gotLocation = true;
-
-        this.loadMap(this.latLng);
-      })
-      .catch(error => {
-        console.log(JSON.stringify(error));
-
-        this.latLng = [-27.476944,153.028056];
-
-        this.gotLocation = true;
-
-        this.loadMap(this.latLng);
-      });
   }
 
   loadMap(latLng: number[]) {
@@ -101,13 +101,15 @@ export class ReportNewPage {
     });
   }
 
-  editLocation(latLng) {
-    let modal = this.modalCtrl.create(LocationPage, {latLng: latLng})
+  editLocation() {
+    let modal = this.modalCtrl.create(LocationPage, {latLng: [
+      this.report.location.coordinates[1],
+      this.report.location.coordinates[0]
+    ]});
 
     modal.onDidDismiss(latLng => {
-      this.latLng = latLng;
       this.report.location.coordinates = [latLng[1], latLng[0]];
-      this.marker.setLatLng(this.latLng);
+      this.marker.setLatLng(latLng);
     });
 
     modal.present();
@@ -116,10 +118,10 @@ export class ReportNewPage {
   save() {
     if (this.isNew) {
       this.reportService.add(this.report)
-        .catch(console.error.bind(console));
+        .catch(e => console.error(JSON.stringify(e)));
     } else {
       this.reportService.update(this.report)
-        .catch(console.error.bind(console));
+        .catch(e => console.error(JSON.stringify(e)));
     }
 
     this.dismiss();
@@ -127,7 +129,7 @@ export class ReportNewPage {
 
   delete() {
     this.reportService.delete(this.report)
-      .catch(console.error.bind(console));
+      .catch(e => console.error(JSON.stringify(e)));
 
     this.dismiss();
   }
