@@ -32,8 +32,8 @@
     "tslint-ionic-rules": "^0.0.3",
     "run-sequence": "1.1.5"
   },
-  "name": "insurance_risk",
-  "description": "insurance_risk: An Ionic project",
+  "name": "crowd_risk",
+  "description": "Participatory Visualisation & Assessment of Risks: A Crowdsourcing Approach",
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
