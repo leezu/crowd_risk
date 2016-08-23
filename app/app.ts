@@ -9,6 +9,8 @@ import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import {AuthService} from './providers/auth-service/auth-service';
 
+let prodMode: boolean = window.hasOwnProperty('cordova');
+
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
 })
@@ -50,4 +52,4 @@ ionicBootstrap(MyApp, [
     deps: [Http]
   }),
   AuthService
-]);
+], {prodMode: prodMode});
