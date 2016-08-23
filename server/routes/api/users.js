@@ -24,7 +24,7 @@ router.get('/:user_id', function(req, res, next) {
 
 // Count of reports per user
 router.get('/:user_id/reports/count', function(req, res, next) {
-  Report.count(req.query)
+  Report.count({"user": req.params.user_id})
     .exec()
     .then((count) => {
       return res.json(count);
@@ -34,7 +34,7 @@ router.get('/:user_id/reports/count', function(req, res, next) {
 
 // Count of comments per user
 router.get('/:user_id/comments/count', function(req, res, next) {
-  Comment.count(req.query)
+  Comment.count({"user": req.params.user_id})
     .exec()
     .then((count) => {
       return res.json(count);
