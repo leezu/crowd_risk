@@ -1,0 +1,90 @@
+* Crowd Risk
+
+  An application (prototype) for crowd sourcing risk information.
+
+  The application is developed with [[http://ionicframework.com/][Ionic Framework v2.0.0-beta.11]].
+  For more details on the technology and for build instructions read below.
+
+** Setup
+*** Frontend
+    - Make sure ionic is [[http://ionicframework.com/docs/v2/getting-started/installation/][installed]].
+    - Clone the repository =git clone https://github.com/leezu/crowd_risk=
+    - Install dependencies =npm install=
+    - (Optional) Change backend / authentication configuration in =app/config.ts=
+    - Build application
+      - Preview application in browser =ionic serve=
+      - Run application on attached android device (make sure adb can "see" the device) =ionic run android --device=
+*** Backend
+    - Make sure NodeJS is [[https://nodejs.org/en/download/][installed]].
+    - Make sure that MongoDB is [[https://www.mongodb.com/download-center][set up and running]] on your machine.
+    - Clone the repository =git clone https://github.com/leezu/crowd_risk=
+    - Switch to =server= directory
+    - Install dependencies =npm install=
+    - Configure in =config.js=
+      - Database configuration
+        - =database=: mongodb database connection, e.g. =mongodb://localhost/crowd_risk=
+      - Auth0 configuration (variables can be found in https://manage.auth0.com/#/applications )
+        - =auth0_domain= Auth0 Domain
+        - =auth0_read_users= Auth0 management API Key that has =read:users= scope ( can be created at https://auth0.com/docs/api/management/v2 )
+        - =jwt_id= Auth0 Client ID
+        - =jwt_secret= Auth0 Client Secret
+** Documentation
+*** Frontend
+    The application is developed with [[http://ionicframework.com/][Ionic Framework v2.0.0-beta.11]].
+
+**** TypeScript
+     It is written in TypeScript, a typed version of ES6 (JavaScript).
+     External libraries used need to provide typings that tell TypeScript about their functionality
+     (and enables its compiler to assess the correctness of the code).
+
+     Those typings live in the =typings/= directory.
+
+     New typings can be added with the [[https://github.com/typings/typings][typings tool]] if available
+     or otherwise written manually.
+
+**** Cordova plugins
+     Cordova provides access to native platform functionality.
+     To access specific features plugins are used.
+     We employ the following ones
+     (in addition to plugins icluded by default when using ionic):
+
+     - =cordova-plugin-camera=: Access to camera.
+     - =cordova-plugin-geolocation=: Access to GPS / Geolocation
+     - =cordova-plugin-inappbrowser=:  Use inappbrowser when opening links in the appliction.
+     Necessary for Auth0 authentication, as the process will otherwise be opened in an external browser
+     and fail.
+
+     New plugins can be added with =ionic plugin add <plugin> --save=.
+
+**** NPM dependencies
+     - =angular2-jwt=: To enable JWT authentication with Auth0
+     - =leaflet=: Interactive maps.
+     - =leaflet-geocoder=mapzen=: A geocoder. Allows to search for places by name.
+     - =leaflet.heat=: A heatmap for the Explore mockup.
+    
+     As some of the dependencies provide static assets the build process had to be adjusted
+     to copy those to the build directory:
+
+***** Build process
+      Extended the =gulpfile.js= to copy static ressources to the build directory of our appliction.
+      Thereby introduced the following tasks:
+      - =images=: copies ressources from =app/assets/images=, 
+        =node_modules/leaflet/dist/images=,
+        =node_modules/leaflet-geocoder-mapzen/dist/images=
+        to =www/build/images=.
+      - =css=: copies =node_modules/leaflet-geocoder-mapzen/dist/images=
+        to =www/build/css/images=.
+
+
+*** Backend
+    The backend is developed on NodeJS with ExpressJS and uses MongoDB as database.
+
+**** NPM dependencies
+     - =auth0=: Auth0 API
+     - =bluebird=: Provides a better implmentation of ES6 Promises
+     - =express=: ExpressJS
+     - =morgan=: Request logging for ExpressJS
+     - =express-jwt=: JWT for ExpressJS. Used to verify tokens sent by the app
+     - =cors=: Configure CORS
+     - =body-parser=: Parse request bodies
+     - =mongoose=: Connection to MongoDB
