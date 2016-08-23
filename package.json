@@ -43,7 +43,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-camera",
     "cordova-plugin-compat",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     {
