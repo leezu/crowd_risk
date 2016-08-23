@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var cors = require('cors');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
 
 var config = require('./config'); // get our config file
 
@@ -29,7 +28,6 @@ app.use(bodyParser.urlencoded({
   limit:1024*1024*20,
   type:'application/x-www-form-urlencoding'
 }));
-app.use(methodOverride());
 
 // Configuration
 mongoose.connect(config.database);
